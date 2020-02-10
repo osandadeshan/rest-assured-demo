@@ -95,5 +95,3 @@ Join the mailing list at our [Google group](http://groups.google.com/group/rest-
 * [Change log](https://github.com/rest-assured/rest-assured/raw/master/changelog.txt)
 * REST Assured on [openhub](https://www.openhub.net/p/rest-assured)
 * [Mailing list](http://groups.google.com/group/rest-assured) for questions and support
-
-<a href="https://www.buymeacoffee.com/johanhaleby" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/arial-blue.png" alt="Buy Me A Coffee" style="height: 42px !important;width: 180px !important;" height="42px" width="180px"></a>
