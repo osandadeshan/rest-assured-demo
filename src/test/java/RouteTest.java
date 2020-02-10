@@ -2,7 +2,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
@@ -93,7 +93,7 @@ public class RouteTest {
         Assert.assertEquals(response.extract().body().jsonPath().get("status[0]"), "In Progress");
     }
 
-    @AfterTest
+    @AfterMethod
     public void doDelete() {
         ValidatableResponse response = given()
                 .contentType(ContentType.JSON)
