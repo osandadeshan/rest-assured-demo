@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.notNullValue;
 
 public class EditUserWithFewFieldsTest extends BaseTest {
 
-    @Test(description = "Verify that a user can be edited")
+    @Test(description = "Verify that a user can be edited with few fields")
     public void testUserModificationForFewFields() {
         Faker faker = new Faker();
         String firstName = faker.name().firstName();

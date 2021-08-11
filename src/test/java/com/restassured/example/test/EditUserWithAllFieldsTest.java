@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class EditUserWithAllFieldsTest extends BaseTest {
 
-    @Test(description = "Verify that a user can be edited")
+    @Test(description = "Verify that a user can be edited with all fields")
     public void testUserModificationForAllFields() {
         Faker faker = new Faker();
         String firstName = faker.name().firstName();
