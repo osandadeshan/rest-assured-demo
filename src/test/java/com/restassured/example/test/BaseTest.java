@@ -1,7 +1,7 @@
 package com.restassured.example.test;
 
 import com.github.javafaker.Faker;
-import com.maxsoft.testngtestresultsanalyzer.ReportListener;
+import com.maxsoft.testngtestresultsanalyzer.TestAnalyzeReportListener;
 import com.restassured.example.Constants;
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
@@ -24,13 +24,13 @@ import static org.apache.http.HttpStatus.SC_OK;
  * Description     :
  **/
 
-@Listeners(ReportListener.class)
+@Listeners(TestAnalyzeReportListener.class)
 public class BaseTest {
 
     public final RequestSpecification requestSpec = RestAssured.given();
 
     @BeforeMethod
-    public void setRequestSpec() {
+    public void setRequestSpecification() {
         requestSpec
                 .contentType(JSON)
                 .accept(JSON)
