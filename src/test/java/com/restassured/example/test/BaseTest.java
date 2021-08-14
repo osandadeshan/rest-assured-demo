@@ -1,9 +1,12 @@
 package com.restassured.example.test;
 
+import com.github.javafaker.Faker;
 import com.maxsoft.testngtestresultsanalyzer.ReportListener;
+import com.restassured.example.Constants;
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
 import io.restassured.specification.RequestSpecification;
+import org.json.JSONObject;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 
@@ -33,6 +36,31 @@ public class BaseTest {
                 .accept(JSON)
                 .baseUri(API_BASE_URL)
                 .header(new Header(AUTHENTICATION_HEADER_NAME, AUTHENTICATION_HEADER_VALUE_PREFIX + getAuthToken()));
+    }
+
+    public int createNewUserAndReturnUserId(String firstName, String lastName) {
+        JSONObject userRequestJson = new JSONObject();
+        userRequestJson.put("email", firstName + lastName + Constants.FAKE_EMAIL_DOMAIN);
+        userRequestJson.put("name", firstName + " " + lastName);
+        userRequestJson.put("gender", "male");
+        userRequestJson.put("status", "active");
+
+        return given()
+                .request()
+                .spec(requestSpec)
+                .body(userRequestJson.toString()).log().all()
+                .post(USERS_ENDPOINT)
+                .then().log().all()
+                .statusCode(SC_OK)
+                .extract()
+                .body()
+                .jsonPath()
+                .get("data.id");
+    }
+
+    public int createNewUserAndReturnUserId() {
+        Faker faker = new Faker();
+        return createNewUserAndReturnUserId(faker.name().firstName(), faker.name().lastName());
     }
 
     private String getAuthToken() {

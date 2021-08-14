@@ -3,6 +3,7 @@ package com.restassured.example.test;
 import com.github.javafaker.Faker;
 import com.restassured.example.Constants;
 import org.json.JSONObject;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.restassured.example.Constants.GET_USER_ENDPOINT;
@@ -21,6 +22,13 @@ import static org.hamcrest.Matchers.equalTo;
  **/
 
 public class EditUserWithAllFieldsTest extends BaseTest {
+
+    private int userId;
+
+    @BeforeMethod
+    public void before() {
+        userId = createNewUserAndReturnUserId();
+    }
 
     @Test(description = "Verify that a user can be edited with all fields")
     public void testUserModificationForAllFields() {
@@ -42,7 +50,7 @@ public class EditUserWithAllFieldsTest extends BaseTest {
                 .request()
                 .spec(requestSpec)
                 .body(userRequestJson.toString()).log().all()
-                .pathParam(USER_ID_PATH_PARAM_NAME, "30")
+                .pathParam(USER_ID_PATH_PARAM_NAME, userId)
                 .put(GET_USER_ENDPOINT)
                 .then().log().all()
                 .statusCode(SC_OK)

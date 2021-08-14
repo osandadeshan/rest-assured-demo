@@ -3,6 +3,7 @@ package com.restassured.example.test;
 import com.github.javafaker.Faker;
 import com.restassured.example.Constants;
 import org.json.JSONObject;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.restassured.example.Constants.GET_USER_ENDPOINT;
@@ -23,6 +24,13 @@ import static org.hamcrest.Matchers.notNullValue;
 
 public class EditUserWithFewFieldsTest extends BaseTest {
 
+    private int userId;
+
+    @BeforeMethod
+    public void before() {
+        userId = createNewUserAndReturnUserId();
+    }
+
     @Test(description = "Verify that a user can be edited with few fields")
     public void testUserModificationForFewFields() {
         Faker faker = new Faker();
@@ -39,7 +47,7 @@ public class EditUserWithFewFieldsTest extends BaseTest {
                 .request()
                 .spec(requestSpec)
                 .body(userRequestJson.toString()).log().all()
-                .pathParam(USER_ID_PATH_PARAM_NAME, "30")
+                .pathParam(USER_ID_PATH_PARAM_NAME, userId)
                 .patch(GET_USER_ENDPOINT)
                 .then().log().all()
                 .statusCode(SC_OK)

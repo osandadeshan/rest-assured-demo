@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Test Suite" verbose="2" parallel="false" thread-count="1">
-    <test name="Regression Test" group-by-instances="true">
+<suite name="Regression Test Suite" parallel="tests" thread-count="2">
+    <test name="User Test" group-by-instances="true">
         <classes>
-            <class name="com.restassured.example.test.GetUserTest"></class>
-            <class name="com.restassured.example.test.CreateUserTest"></class>
-            <class name="com.restassured.example.test.EditUserWithAllFieldsTest"></class>
-            <class name="com.restassured.example.test.EditUserWithFewFieldsTest"></class>
-            <class name="com.restassured.example.test.DeleteUserTest"></class>
+            <class name="com.restassured.example.test.GetUserTest"/>
+            <class name="com.restassured.example.test.CreateUserTest"/>
+            <class name="com.restassured.example.test.EditUserWithAllFieldsTest"/>
+            <class name="com.restassured.example.test.EditUserWithFewFieldsTest"/>
+            <class name="com.restassured.example.test.DeleteUserTest"/>
         </classes>
     </test>
 </suite>
