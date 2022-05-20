@@ -1,3 +1,4 @@
+import com.maxsoft.testngtestresultsanalyzer.TestAnalyzeReportListener;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
@@ -5,10 +6,12 @@ import io.restassured.specification.RequestSpecification;
 import org.json.JSONObject;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.testng.AssertJUnit.assertEquals;
+import static org.apache.http.HttpStatus.SC_OK;
+import static org.hamcrest.Matchers.equalTo;
 
 /**
  * Project Name    : rest-assured-demo
@@ -19,7 +22,7 @@ import static org.testng.AssertJUnit.assertEquals;
  * Description     :
  **/
 
-
+@Listeners(TestAnalyzeReportListener.class)
 public class UsersTest {
 
     private final String NAME = "Osanda Nimalarathna";
@@ -52,32 +55,28 @@ public class UsersTest {
                 .body(reqJson.toString())
                 .when().log().all()
                 .post(Constants.USERS_ENDPOINT)
-                .then().log().all();
+                .then().log().all()
+                .statusCode(SC_OK)
+                .body("data.name", equalTo(NAME))
+                .body("data.email", equalTo(EMAIL))
+                .body("data.gender", equalTo(GENDER))
+                .body("data.status", equalTo(STATUS));
 
         USER_ID = response.extract().body().jsonPath().get("data.id").toString();
-
-        // Validations
-        assertEquals(response.extract().statusCode(), 200);
-        assertEquals(response.extract().body().jsonPath().get("data.name"), NAME);
-        assertEquals(response.extract().body().jsonPath().get("data.email"), EMAIL);
-        assertEquals(response.extract().body().jsonPath().get("data.gender"), GENDER);
-        assertEquals(response.extract().body().jsonPath().get("data.status"), STATUS);
     }
 
     @Test(dependsOnMethods = "testCreateUser")
     public void testRetrieveUser() {
-        ValidatableResponse response = given()
+        given()
                 .spec(requestSpecification)
                 .when().log().all()
                 .get(Constants.USERS_ENDPOINT + USER_ID)
-                .then().log().all();
-
-        // Validations
-        assertEquals(response.extract().statusCode(), 200);
-        assertEquals(response.extract().body().jsonPath().get("data.name"), NAME);
-        assertEquals(response.extract().body().jsonPath().get("data.email"), EMAIL);
-        assertEquals(response.extract().body().jsonPath().get("data.gender"), GENDER);
-        assertEquals(response.extract().body().jsonPath().get("data.status"), STATUS);
+                .then().log().all()
+                .statusCode(SC_OK)
+                .body("data.name", equalTo(NAME))
+                .body("data.email", equalTo(EMAIL))
+                .body("data.gender", equalTo(GENDER))
+                .body("data.status", equalTo(STATUS));
     }
 
     @Test(dependsOnMethods = "testCreateUser")
@@ -93,19 +92,17 @@ public class UsersTest {
         reqJson.put("gender", gender);
         reqJson.put("status", status);
 
-        ValidatableResponse response = given()
+        given()
                 .spec(requestSpecification)
                 .body(reqJson.toString())
                 .when().log().all()
                 .put(Constants.USERS_ENDPOINT + USER_ID)
-                .then().log().all();
-
-        // Validations
-        assertEquals(response.extract().statusCode(), 200);
-        assertEquals(response.extract().body().jsonPath().get("data.name"), name);
-        assertEquals(response.extract().body().jsonPath().get("data.email"), email);
-        assertEquals(response.extract().body().jsonPath().get("data.gender"), gender);
-        assertEquals(response.extract().body().jsonPath().get("data.status"), status);
+                .then().log().all()
+                .statusCode(SC_OK)
+                .body("data.name", equalTo(name))
+                .body("data.email", equalTo(email))
+                .body("data.gender", equalTo(gender))
+                .body("data.status", equalTo(status));
     }
 
     @AfterClass
@@ -115,6 +112,6 @@ public class UsersTest {
                 .when()
                 .delete(Constants.USERS_ENDPOINT + USER_ID)
                 .then()
-                .statusCode(200);
+                .statusCode(SC_OK);
     }
 }

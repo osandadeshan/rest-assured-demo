@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Test Suite" verbose="2" parallel="false" thread-count="1">
-    <test name="Regression Test" group-by-instances="true">
+<suite name="Regression Test Suite" parallel="tests" thread-count="2">
+    <test name="User Test">
         <classes>
             <class name="UsersTest"></class>
         </classes>
